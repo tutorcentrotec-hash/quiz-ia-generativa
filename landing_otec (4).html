@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Demo E-Learning · Curso ISO 9001:2015</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a1520;
+  --bg2: #0d1e2e;
+  --bg3: #0f2540;
+  --blue: #4A90D9;
+  --blue-light: #7EB8F7;
+  --blue-dark: #185FA5;
+  --blue-dim: rgba(74,144,217,0.15);
+  --text: #ffffff;
+  --text-mid: #8aafc8;
+  --text-dim: #3a5a78;
+  --border: rgba(74,144,217,0.2);
+  --green: #4ade80;
+  --red: #f87171;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+
+/* ── NOISE OVERLAY ── */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");opacity:0.4;pointer-events:none;z-index:0;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,21,32,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-family:'DM Serif Display',serif;font-size:20px;color:var(--text);}
+.nav-logo span{color:var(--blue);}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{color:var(--text-mid);font-size:13px;font-weight:500;text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover{color:var(--blue);}
+.nav-cta{background:var(--blue);color:#fff;font-size:13px;font-weight:700;padding:9px 22px;border-radius:99px;text-decoration:none;transition:all 0.2s;}
+.nav-cta:hover{background:#5BA3EC;box-shadow:0 4px 16px rgba(74,144,217,0.4);}
+
+/* ── HERO ── */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;overflow:hidden;}
+.hero-glow{position:absolute;top:20%;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(74,144,217,0.12) 0%,transparent 70%);pointer-events:none;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(74,144,217,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(74,144,217,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue-dim);border:1px solid var(--border);color:var(--blue-light);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:99px;margin-bottom:28px;animation:fadeUp 0.6s both;}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(36px,6vw,72px);line-height:1.1;margin-bottom:20px;animation:fadeUp 0.6s 0.1s both;}
+.hero-title em{font-style:italic;color:var(--blue);}
+.hero-sub{font-size:17px;color:var(--text-mid);line-height:1.75;max-width:560px;margin:0 auto 40px;animation:fadeUp 0.6s 0.2s both;}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp 0.6s 0.3s both;}
+.btn-primary{background:var(--blue);color:#fff;font-size:14px;font-weight:700;padding:14px 32px;border-radius:99px;text-decoration:none;box-shadow:0 8px 24px rgba(74,144,217,0.35);transition:all 0.2s;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(74,144,217,0.5);}
+.btn-ghost{background:transparent;color:var(--blue-light);font-size:14px;font-weight:600;padding:14px 28px;border-radius:99px;text-decoration:none;border:1.5px solid var(--border);transition:all 0.2s;}
+.btn-ghost:hover{border-color:var(--blue);color:var(--blue);}
+.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--text-dim);font-size:11px;letter-spacing:1px;animation:fadeUp 0.6s 0.5s both;}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--blue),transparent);animation:scrollAnim 2s infinite;}
+@keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SECTION ── */
+.section{padding:80px 24px;position:relative;z-index:1;}
+.section-label{font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;}
+.section-title{font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,42px);line-height:1.2;margin-bottom:12px;}
+.section-title em{font-style:italic;color:var(--blue);}
+.section-sub{font-size:15px;color:var(--text-mid);line-height:1.7;max-width:500px;}
+.section-inner{max-width:960px;margin:0 auto;}
+
+/* ── STATS ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden;max-width:800px;margin:60px auto 0;}
+.stat-box{background:var(--bg2);padding:28px 24px;text-align:center;}
+.stat-n{font-family:'DM Serif Display',serif;font-size:36px;color:var(--blue);margin-bottom:4px;}
+.stat-l{font-size:11px;color:var(--text-dim);font-weight:600;text-transform:uppercase;letter-spacing:0.8px;}
+
+/* ── PPT DEMO ── */
+.ppt-section{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.ppt-wrap{max-width:960px;margin:0 auto;padding:80px 24px;}
+.ppt-header{display:flex;align-items:flex-start;justify-content:space-between;gap:32px;margin-bottom:48px;flex-wrap:wrap;}
+.ppt-stage{background:var(--bg);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.5);}
+.ppt-topbar{background:#0d1117;border-bottom:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;}
+.ppt-dots{display:flex;gap:6px;}
+.ppt-dot{width:10px;height:10px;border-radius:50%;}
+.ppt-title-bar{font-size:12px;color:var(--text-dim);font-weight:500;}
+.ppt-counter{font-size:12px;color:var(--blue);font-weight:700;}
+.ppt-slides{position:relative;min-height:380px;display:flex;}
+.ppt-slide{display:none;width:100%;animation:sldIn 0.4s both;flex:1;}
+.ppt-slide.active{display:flex;}
+@keyframes sldIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
+
+/* Slide layouts */
+.sl-cover{flex:1;background:linear-gradient(135deg,#0d2137,#091a2e);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 40px;text-align:center;}
+.sl-cover-badge{background:var(--blue-dim);border:1px solid var(--border);color:var(--blue-light);font-size:11px;font-weight:700;padding:4px 14px;border-radius:99px;letter-spacing:1px;margin-bottom:18px;}
+.sl-cover h2{font-family:'DM Serif Display',serif;font-size:32px;color:#fff;margin-bottom:10px;line-height:1.2;}
+.sl-cover h2 em{font-style:italic;color:var(--blue);}
+.sl-cover p{font-size:14px;color:var(--text-mid);line-height:1.7;max-width:360px;}
+.sl-cover-units{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap;justify-content:center;}
+.sl-cover-unit{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:12px;color:var(--text-mid);}
+.sl-cover-unit strong{color:#fff;display:block;font-size:11px;color:var(--blue-light);margin-bottom:2px;}
+
+.sl-content{flex:1;background:#fff;padding:32px 36px;display:flex;flex-direction:column;width:100%;}
+.sl-tag{font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;}
+.sl-h{font-size:20px;font-weight:800;color:#1B3F6E;margin-bottom:4px;}
+.sl-div{width:36px;height:3px;background:var(--blue);border-radius:99px;margin-bottom:16px;}
+.def-box{background:#EBF4FF;border-left:4px solid var(--blue);border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:12px;}
+.def-box p{font-size:13px;color:#1B3F6E;line-height:1.65;}
+.cards-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.mini-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;border-left:3px solid var(--blue);}
+.mini-card-n{font-size:18px;font-weight:800;color:var(--blue);margin-bottom:2px;}
+.mini-card-l{font-size:11px;font-weight:700;color:#1B3F6E;margin-bottom:1px;}
+.mini-card-t{font-size:10px;color:#64748b;line-height:1.4;}
+.hl{background:#1B3F6E;border-radius:8px;padding:12px 16px;margin-top:auto;}
+.hl p{font-size:12px;color:#B8D4F0;line-height:1.6;}
+.hl strong{color:#7EB8F7;}
+
+.sl-principles{flex:1;background:#fff;padding:32px 36px;display:flex;flex-direction:column;width:100%;}
+.p-list{display:flex;flex-direction:column;gap:6px;margin-top:4px;}
+.p-item{display:flex;align-items:flex-start;gap:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px 12px;}
+.p-num{width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.p-item h4{font-size:11px;font-weight:700;color:#1B3F6E;margin-bottom:1px;}
+.p-item p{font-size:10px;color:#64748b;line-height:1.4;}
+
+.sl-pdca{flex:1;background:#fff;padding:32px 36px;display:flex;flex-direction:column;width:100%;}
+.pdca-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.pdca-card{border-radius:8px;padding:14px;text-align:center;}
+.pdca-card .pl{font-size:13px;font-weight:800;margin-bottom:3px;}
+.pdca-card .pt{font-size:11px;line-height:1.4;}
+.pP{background:#EBF4FF}.pP .pl{color:#185FA5}
+.pD{background:#EAF3DE}.pD .pl{color:#3B6D11}
+.pC{background:#FAEEDA}.pC .pl{color:#854F0B}
+.pA{background:#FCEBEB}.pA .pl{color:#A32D2D}
+
+/* PPT controls */
+.ppt-controls{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:#0d1117;border-top:1px solid var(--border);}
+.ppt-thumbnails{display:flex;gap:6px;overflow-x:auto;flex:1;padding:0 12px;}
+.ppt-thumb{width:60px;height:36px;border-radius:4px;border:1.5px solid transparent;cursor:pointer;overflow:hidden;flex-shrink:0;transition:all 0.2s;opacity:0.5;}
+.ppt-thumb.on{border-color:var(--blue);opacity:1;}
+.ppt-thumb-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;text-align:center;padding:3px;}
+.ppt-nav-btns{display:flex;gap:8px;}
+.ppt-btn{width:32px;height:32px;border-radius:50%;background:rgba(74,144,217,0.1);border:1px solid var(--border);color:var(--blue-light);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.ppt-btn:hover{background:var(--blue);color:#fff;}
+.ppt-btn:disabled{opacity:0.2;cursor:default;}
+
+/* ── QUIZ ── */
+.quiz-section{padding:80px 24px;}
+.quiz-wrap{max-width:700px;margin:0 auto;}
+.quiz-box{background:var(--bg2);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.4);}
+.quiz-hdr{background:linear-gradient(135deg,#0d2137,#091a2e);padding:28px 32px;border-bottom:1px solid var(--border);}
+.quiz-hdr-label{font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;}
+.quiz-hdr h3{font-family:'DM Serif Display',serif;font-size:22px;color:#fff;margin-bottom:4px;}
+.quiz-hdr p{font-size:13px;color:var(--text-mid);}
+.quiz-progress-bar{height:3px;background:rgba(255,255,255,0.1);border-radius:99px;margin-top:14px;}
+.quiz-progress-fill{height:100%;background:var(--blue);border-radius:99px;transition:width 0.4s;}
+.quiz-body{padding:32px;}
+.q-step{display:none;}
+.q-step.active{display:block;animation:fadeUp 0.4s both;}
+.q-num{font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.q-text{font-size:16px;font-weight:600;color:#fff;margin-bottom:20px;line-height:1.5;}
+.q-options{display:flex;flex-direction:column;gap:8px;}
+.q-opt{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.03);border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;cursor:pointer;transition:all 0.2s;font-family:inherit;width:100%;text-align:left;color:#fff;}
+.q-opt:hover:not(:disabled){border-color:var(--blue);background:var(--blue-dim);}
+.q-opt.correct{background:rgba(74,222,128,0.1);border-color:#4ade80;color:#4ade80;}
+.q-opt.wrong{background:rgba(248,113,113,0.1);border-color:#f87171;color:#f87171;}
+.q-opt:disabled{cursor:default;}
+.q-ltr{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.06);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.q-opt.correct .q-ltr{background:#4ade80;color:#0a1520;}
+.q-opt.wrong .q-ltr{background:#f87171;color:#0a1520;}
+.q-opt-txt{font-size:13px;font-weight:500;}
+.q-feedback{margin-top:12px;padding:10px 14px;border-radius:8px;font-size:12px;line-height:1.55;display:none;}
+.q-feedback.show{display:block;}
+.q-feedback.ok{background:rgba(74,222,128,0.08);border-left:3px solid #4ade80;color:#86efac;}
+.q-feedback.err{background:rgba(248,113,113,0.08);border-left:3px solid #f87171;color:#fca5a5;}
+.q-next{margin-top:20px;background:var(--blue);color:#fff;border:none;border-radius:99px;padding:12px 28px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;display:none;transition:all 0.2s;}
+.q-next.show{display:inline-block;}
+.q-next:hover{background:#5BA3EC;}
+
+.quiz-result{padding:40px 32px;text-align:center;display:none;}
+.quiz-result.show{display:block;animation:fadeUp 0.5s both;}
+.qr-circle{width:100px;height:100px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:32px;margin:0 auto 16px;border:3px solid;}
+.qr-title{font-family:'DM Serif Display',serif;font-size:26px;margin-bottom:8px;}
+.qr-sub{font-size:14px;color:var(--text-mid);margin-bottom:24px;line-height:1.6;}
+.qr-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.qr-btn{padding:11px 24px;border-radius:99px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;border:none;transition:all 0.2s;}
+.qr-retry{background:transparent;border:1.5px solid var(--border);color:var(--text-mid);}
+.qr-retry:hover{border-color:var(--blue);color:var(--blue);}
+.qr-course{background:var(--blue);color:#fff;}
+.qr-course:hover{background:#5BA3EC;}
+
+/* ── FEATURES ── */
+.features-section{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 24px;}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;}
+.feat-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:28px 24px;transition:all 0.3s;}
+.feat-card:hover{border-color:var(--blue);transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,0.3);}
+.feat-icon{font-size:28px;margin-bottom:16px;}
+.feat-title{font-size:15px;font-weight:700;margin-bottom:6px;}
+.feat-desc{font-size:13px;color:var(--text-mid);line-height:1.6;}
+
+/* ── CTA FINAL ── */
+.cta-section{padding:100px 24px;text-align:center;}
+.cta-box{max-width:600px;margin:0 auto;background:linear-gradient(135deg,#0d2137,#091a2e);border:1px solid var(--border);border-radius:24px;padding:64px 48px;position:relative;overflow:hidden;}
+.cta-box::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(74,144,217,0.1) 0%,transparent 70%);pointer-events:none;}
+.cta-box .section-label{margin-bottom:12px;}
+.cta-box .section-title{margin-bottom:12px;}
+.cta-box .section-sub{margin:0 auto 32px;}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.footer-logo{font-family:'DM Serif Display',serif;font-size:18px;}
+.footer-logo span{color:var(--blue);}
+.footer-copy{font-size:12px;color:var(--text-dim);}
+
+@media(max-width:700px){
+  nav{padding:12px 20px;}
+  .nav-links{display:none;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .features-grid{grid-template-columns:1fr;}
+  .cards-2,.pdca-grid{grid-template-columns:1fr;}
+  .cta-box{padding:40px 24px;}
+  footer{flex-direction:column;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">E-<span>Learning</span></div>
+  <ul class="nav-links">
+    <li><a href="#demo-ppt">Demo Curso</a></li>
+    <li><a href="#quiz">Quiz Muestra</a></li>
+    <li><a href="#features">Características</a></li>
+  </ul>
+  <a href="https://tutorcentrotec-hash.github.io/iso9001-curso/" class="nav-cta">Ver Curso Completo →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div style="position:relative;z-index:1;">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>Demo interactiva disponible</div>
+    <h1 class="hero-title">Tus manuales tienen<br><em>una nueva vida.</em></h1>
+    <p class="hero-sub">Convertimos el contenido de tus Manuales en cursos e-learning profesionales con video, diapositivas interactivas y evaluaciones — listos para SENCE.</p>
+    <div class="hero-btns">
+      <a href="#demo-ppt" class="btn-primary">Ver Demo del Curso ↓</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>EXPLORAR</span>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="section" style="padding-top:0;">
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-n">72h</div><div class="stat-l">Entrega promedio</div></div>
+    <div class="stat-box"><div class="stat-n">100%</div><div class="stat-l">Cumplimiento SENCE</div></div>
+    <div class="stat-box"><div class="stat-n">+50</div><div class="stat-l">Cursos migrados</div></div>
+    <div class="stat-box"><div class="stat-n">0</div><div class="stat-l">Conocimientos técnicos</div></div>
+  </div>
+</section>
+
+<!-- PPT DEMO -->
+<section class="ppt-section" id="demo-ppt">
+  <div class="ppt-wrap">
+    <div class="ppt-header">
+      <div>
+        <div class="section-label">Actividad interactiva</div>
+        <h2 class="section-title">Así se ven tus<br><em>diapositivas digitales</em></h2>
+      </div>
+      <p class="section-sub" style="padding-top:32px;">Navega las slides igual que en el curso real. Cada diapositiva es interactiva y adaptada a pantalla completa o móvil.</p>
+    </div>
+
+    <div class="ppt-stage">
+      <div class="ppt-topbar">
+        <div class="ppt-dots">
+          <div class="ppt-dot" style="background:#f87171"></div>
+          <div class="ppt-dot" style="background:#fbbf24"></div>
+          <div class="ppt-dot" style="background:#4ade80"></div>
+        </div>
+        <div class="ppt-title-bar">ISO 9001:2015 — Vista previa</div>
+        <div class="ppt-counter" id="pptCounter">1 / 5</div>
+      </div>
+
+      <div class="ppt-slides">
+        <!-- Slide 1: Portada -->
+        <div class="ppt-slide active">
+          <div class="sl-cover">
+            <div class="sl-cover-badge">Norma Internacional · ISO</div>
+            <h2>ISO <em>9001:2015</em><br>Sistema de Gestión de Calidad</h2>
+            <p>Aprende a implementar y comprender los requisitos del estándar de calidad más reconocido del mundo.</p>
+            <div class="sl-cover-units">
+              <div class="sl-cover-unit"><strong>Unidad 1</strong>Fundamentos</div>
+              <div class="sl-cover-unit"><strong>Unidad 2</strong>Requisitos</div>
+              <div class="sl-cover-unit"><strong>Unidad 3</strong>Auditoría</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: Qué es ISO -->
+        <div class="ppt-slide">
+          <div class="sl-content">
+            <div class="sl-tag">Concepto fundamental</div>
+            <div class="sl-h">¿Qué es la ISO 9001:2015?</div>
+            <div class="sl-div"></div>
+            <div class="def-box"><p>La <strong>ISO 9001:2015</strong> es el estándar internacional para los <strong>Sistemas de Gestión de Calidad (SGC)</strong>. Establece requisitos para demostrar capacidad de proporcionar productos y servicios que satisfagan al cliente.</p></div>
+            <div class="cards-2">
+              <div class="mini-card"><div class="mini-card-n">ISO</div><div class="mini-card-l">Organización</div><div class="mini-card-t">Fundada en 1947, Ginebra, Suiza.</div></div>
+              <div class="mini-card"><div class="mini-card-n">2015</div><div class="mini-card-l">Versión actual</div><div class="mini-card-t">Quinta edición con enfoque en riesgos.</div></div>
+              <div class="mini-card"><div class="mini-card-n">+1M</div><div class="mini-card-l">Certificaciones</div><div class="mini-card-t">En más de 170 países del mundo.</div></div>
+              <div class="mini-card"><div class="mini-card-n">10</div><div class="mini-card-l">Cláusulas</div><div class="mini-card-t">Estructura de alto nivel HLS.</div></div>
+            </div>
+            <div class="hl"><p>La norma NO dice cómo hacer las cosas — define <strong>QUÉ</strong> debe lograrse.</p></div>
+          </div>
+        </div>
+
+        <!-- Slide 3: 7 Principios -->
+        <div class="ppt-slide">
+          <div class="sl-principles">
+            <div class="sl-tag">Base filosófica</div>
+            <div class="sl-h">Los 7 Principios de Gestión de Calidad</div>
+            <div class="sl-div"></div>
+            <div class="p-list">
+              <div class="p-item"><div class="p-num">1</div><div><h4>Enfoque en el cliente</h4><p>Satisfacer y superar las expectativas del cliente.</p></div></div>
+              <div class="p-item"><div class="p-num">2</div><div><h4>Liderazgo</h4><p>Los líderes crean condiciones para lograr objetivos.</p></div></div>
+              <div class="p-item"><div class="p-num">3</div><div><h4>Compromiso de las personas</h4><p>Personas empoderadas mejoran la creación de valor.</p></div></div>
+              <div class="p-item"><div class="p-num">4</div><div><h4>Enfoque basado en procesos</h4><p>Resultados predecibles gestionando procesos.</p></div></div>
+              <div class="p-item"><div class="p-num">5</div><div><h4>Mejora continua</h4><p>Objetivo permanente de toda organización exitosa.</p></div></div>
+              <div class="p-item"><div class="p-num">6</div><div><h4>Toma de decisiones basada en evidencia</h4><p>Decisiones sustentadas en análisis de datos.</p></div></div>
+              <div class="p-item"><div class="p-num">7</div><div><h4>Gestión de las relaciones</h4><p>Optimizar el impacto de las partes interesadas.</p></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 4: PDCA -->
+        <div class="ppt-slide">
+          <div class="sl-pdca">
+            <div class="sl-tag">Ciclo de mejora</div>
+            <div class="sl-h">El ciclo PDCA en ISO 9001:2015</div>
+            <div class="sl-div"></div>
+            <div class="pdca-grid">
+              <div class="pdca-card pP"><div class="pl">📋 PLAN — Planificar</div><div class="pt">Establecer objetivos y procesos. Cláusulas 4, 5, 6 y 7.</div></div>
+              <div class="pdca-card pD"><div class="pl">⚙️ DO — Hacer</div><div class="pt">Implementar lo planificado. Cláusula 8 (Operación).</div></div>
+              <div class="pdca-card pC"><div class="pl">📊 CHECK — Verificar</div><div class="pt">Seguimiento y medición. Cláusula 9 (Evaluación).</div></div>
+              <div class="pdca-card pA"><div class="pl">🔄 ACT — Actuar</div><div class="pt">Mejora continua y correctivas. Cláusula 10.</div></div>
+            </div>
+            <div class="hl"><p>El ciclo PDCA es la <strong>columna vertebral</strong> de ISO 9001:2015. Todo el sistema gira en torno a este proceso de mejora continua.</p></div>
+          </div>
+        </div>
+
+        <!-- Slide 5: Resumen -->
+        <div class="ppt-slide">
+          <div class="sl-content">
+            <div class="sl-tag">Resumen del curso</div>
+            <div class="sl-h">Lo que aprendiste hoy</div>
+            <div class="sl-div"></div>
+            <div class="def-box"><p><strong>ISO 9001:2015</strong> es el estándar internacional de calidad más reconocido del mundo, con más de 1 millón de certificaciones en 170 países.</p></div>
+            <div class="p-list" style="margin-bottom:12px;">
+              <div class="p-item"><div class="p-num">✓</div><div><h4>Qué es ISO 9001:2015</h4><p>Estándar para Sistemas de Gestión de Calidad (SGC). 5ª edición desde 2015.</p></div></div>
+              <div class="p-item"><div class="p-num">✓</div><div><h4>7 Principios de Gestión</h4><p>Desde enfoque en el cliente hasta gestión de relaciones con partes interesadas.</p></div></div>
+              <div class="p-item"><div class="p-num">✓</div><div><h4>Estructura de 10 cláusulas</h4><p>Siguiendo la estructura de alto nivel (HLS) común a todos los estándares ISO.</p></div></div>
+              <div class="p-item"><div class="p-num">✓</div><div><h4>Ciclo PDCA</h4><p>Planificar → Hacer → Verificar → Actuar. Base de la mejora continua.</p></div></div>
+            </div>
+            <div class="hl"><p>¿Quieres profundizar? <strong>El curso completo incluye 3 unidades, 15 slides y 3 evaluaciones.</strong></p></div>
+          </div>
+        </div>
+      </div><!-- fin ppt-slides -->
+
+      <div class="ppt-controls">
+        <button class="ppt-btn" id="pptPrev" onclick="pptGo(-1)" disabled>&#8249;</button>
+        <div class="ppt-thumbnails" id="pptThumbs"></div>
+        <button class="ppt-btn" id="pptNext" onclick="pptGo(1)">&#8250;</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section class="quiz-section" id="quiz">
+  <div class="quiz-wrap">
+    <div style="text-align:center;margin-bottom:48px;">
+      <div class="section-label">Evaluación interactiva</div>
+      <h2 class="section-title">Prueba el <em>quiz de muestra</em></h2>
+      <p class="section-sub" style="margin:0 auto;">Así se viven las evaluaciones en el curso. Retroalimentación inmediata y nota automática.</p>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-hdr">
+        <div class="quiz-hdr-label">📝 Quiz — ISO 9001:2015</div>
+        <h3>Evaluación de Conocimientos</h3>
+        <p>Responde las 4 preguntas para ver tu resultado</p>
+        <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizFill" style="width:0%"></div></div>
+      </div>
+
+      <div class="quiz-body" id="quizBody">
+        <!-- Q1 -->
+        <div class="q-step active" id="q0">
+          <div class="q-num">Pregunta 1 de 4</div>
+          <div class="q-text">¿En qué año se publicó la versión actual de la norma ISO 9001?</div>
+          <div class="q-options">
+            <button class="q-opt" onclick="answerQ(0,0,2)"><span class="q-ltr">A</span><span class="q-opt-txt">2008</span></button>
+            <button class="q-opt" onclick="answerQ(0,1,2)"><span class="q-ltr">B</span><span class="q-opt-txt">2012</span></button>
+            <button class="q-opt" onclick="answerQ(0,2,2)"><span class="q-ltr">C</span><span class="q-opt-txt">2015</span></button>
+            <button class="q-opt" onclick="answerQ(0,3,2)"><span class="q-ltr">D</span><span class="q-opt-txt">2020</span></button>
+          </div>
+          <div class="q-feedback" id="fb0"></div>
+          <button class="q-next" id="next0" onclick="nextQ(1)">Siguiente →</button>
+        </div>
+
+        <!-- Q2 -->
+        <div class="q-step" id="q1">
+          <div class="q-num">Pregunta 2 de 4</div>
+          <div class="q-text">¿Cuántos principios de gestión de calidad contempla la norma ISO 9001:2015?</div>
+          <div class="q-options">
+            <button class="q-opt" onclick="answerQ(1,0,1)"><span class="q-ltr">A</span><span class="q-opt-txt">5 principios</span></button>
+            <button class="q-opt" onclick="answerQ(1,1,1)"><span class="q-ltr">B</span><span class="q-opt-txt">7 principios</span></button>
+            <button class="q-opt" onclick="answerQ(1,2,1)"><span class="q-ltr">C</span><span class="q-opt-txt">9 principios</span></button>
+            <button class="q-opt" onclick="answerQ(1,3,1)"><span class="q-ltr">D</span><span class="q-opt-txt">10 principios</span></button>
+          </div>
+          <div class="q-feedback" id="fb1"></div>
+          <button class="q-next" id="next1" onclick="nextQ(2)">Siguiente →</button>
+        </div>
+
+        <!-- Q3 -->
+        <div class="q-step" id="q2">
+          <div class="q-num">Pregunta 3 de 4</div>
+          <div class="q-text">¿Qué significan las siglas PDCA en el contexto de ISO 9001?</div>
+          <div class="q-options">
+            <button class="q-opt" onclick="answerQ(2,0,0)"><span class="q-ltr">A</span><span class="q-opt-txt">Planificar, Hacer, Verificar, Actuar</span></button>
+            <button class="q-opt" onclick="answerQ(2,1,0)"><span class="q-ltr">B</span><span class="q-opt-txt">Proceso, Dirección, Control, Auditoría</span></button>
+            <button class="q-opt" onclick="answerQ(2,2,0)"><span class="q-ltr">C</span><span class="q-opt-txt">Plan, Desarrollo, Cierre, Análisis</span></button>
+            <button class="q-opt" onclick="answerQ(2,3,0)"><span class="q-ltr">D</span><span class="q-opt-txt">Proceso, Datos, Calidad, Acciones</span></button>
+          </div>
+          <div class="q-feedback" id="fb2"></div>
+          <button class="q-next" id="next2" onclick="nextQ(3)">Siguiente →</button>
+        </div>
+
+        <!-- Q4 -->
+        <div class="q-step" id="q3">
+          <div class="q-num">Pregunta 4 de 4</div>
+          <div class="q-text">¿Cuántas cláusulas tiene la estructura de alto nivel (HLS) de ISO 9001:2015?</div>
+          <div class="q-options">
+            <button class="q-opt" onclick="answerQ(3,0,2)"><span class="q-ltr">A</span><span class="q-opt-txt">7 cláusulas</span></button>
+            <button class="q-opt" onclick="answerQ(3,1,2)"><span class="q-ltr">B</span><span class="q-opt-txt">8 cláusulas</span></button>
+            <button class="q-opt" onclick="answerQ(3,2,2)"><span class="q-ltr">C</span><span class="q-opt-txt">10 cláusulas</span></button>
+            <button class="q-opt" onclick="answerQ(3,3,2)"><span class="q-ltr">D</span><span class="q-opt-txt">12 cláusulas</span></button>
+          </div>
+          <div class="q-feedback" id="fb3"></div>
+          <button class="q-next" id="next3" onclick="showResult()">Ver resultado →</button>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div class="quiz-result" id="quizResult">
+        <div class="qr-circle" id="qrCircle"></div>
+        <div class="qr-title" id="qrTitle"></div>
+        <div class="qr-sub" id="qrSub"></div>
+        <div class="qr-btns">
+          <button class="qr-btn qr-retry" onclick="retryQuiz()">↺ Reintentar</button>
+          <a href="https://tutorcentrotec-hash.github.io/iso9001-curso/" class="qr-btn qr-course">Ver Curso Completo →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <div class="section-inner">
+    <div style="text-align:center;">
+      <div class="section-label">Lo que incluye cada curso</div>
+      <h2 class="section-title">Todo lo que necesita<br><em>tu OTEC</em></h2>
+    </div>
+    <div class="features-grid">
+      <div class="feat-card"><div class="feat-icon">▶️</div><div class="feat-title">Video integrado</div><div class="feat-desc">Tu contenido audiovisual dentro del curso, sin plataformas externas ni links que se pierden.</div></div>
+      <div class="feat-card"><div class="feat-icon">📊</div><div class="feat-title">Evaluaciones con nota</div><div class="feat-desc">Quizzes con retroalimentación inmediata y nota de aprobación configurable desde el 1 al 100.</div></div>
+      <div class="feat-card"><div class="feat-icon">📈</div><div class="feat-title">Seguimiento SCORM</div><div class="feat-desc">Progreso, tiempo y score de cada participante registrado directamente en tu Moodle.</div></div>
+      <div class="feat-card"><div class="feat-icon">📱</div><div class="feat-title">100% Responsive</div><div class="feat-desc">Funciona perfecto en celular, tablet y computador. Sin descargas ni instalaciones.</div></div>
+      <div class="feat-card"><div class="feat-icon">✅</div><div class="feat-title">Cumplimiento SENCE</div><div class="feat-desc">Diseñado para cumplir con los requisitos técnicos y de registro de la franquicia SENCE.</div></div>
+      <div class="feat-card"><div class="feat-icon">⚡</div><div class="feat-title">Entrega en 72 horas</div><div class="feat-desc">Desde que nos envías el material hasta que tienes el curso listo en tu plataforma.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-box">
+    <div class="section-label">¿Listo para migrar?</div>
+    <h2 class="section-title">Empieza con<br><em>el curso completo</em></h2>
+    <p class="section-sub">Navega el demo real de ISO 9001:2015 y descubre la experiencia que tendrán tus participantes.</p>
+    <a href="https://tutorcentrotec-hash.github.io/iso9001-curso/" class="btn-primary">Acceder al Curso Demo →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">E-<span>Learning</span></div>
+  <div class="footer-copy">© 2026 · Migración a e-learning asincrónico · Cumplimiento SENCE</div>
+</footer>
+
+<script>
+// ── PPT ──
+var pptCur = 0;
+var pptSlides = document.querySelectorAll('.ppt-slide');
+var pptTotal = pptSlides.length;
+
+// Build thumbs
+var thumbsEl = document.getElementById('pptThumbs');
+var thumbBgs = ['#0d2137','#fff','#fff','#fff','#fff'];
+var thumbColors = ['#7EB8F7','#1B3F6E','#1B3F6E','#1B3F6E','#1B3F6E'];
+var thumbLabels = ['Portada','¿Qué es ISO?','7 Principios','PDCA','Resumen'];
+thumbLabels.forEach(function(l,i){
+  var t = document.createElement('div');
+  t.className = 'ppt-thumb' + (i===0?' on':'');
+  var inner = document.createElement('div');
+  inner.className = 'ppt-thumb-inner';
+  inner.style.background = thumbBgs[i];
+  inner.style.color = thumbColors[i];
+  inner.textContent = l;
+  t.appendChild(inner);
+  t.onclick = (function(n){return function(){pptJump(n);};})(i);
+  thumbsEl.appendChild(t);
+});
+
+function pptJump(n){
+  pptSlides[pptCur].classList.remove('active');
+  document.querySelectorAll('.ppt-thumb')[pptCur].classList.remove('on');
+  pptCur = n;
+  pptSlides[pptCur].classList.add('active');
+  document.querySelectorAll('.ppt-thumb')[pptCur].classList.add('on');
+  document.getElementById('pptCounter').textContent = (pptCur+1)+' / '+pptTotal;
+  document.getElementById('pptPrev').disabled = pptCur===0;
+  document.getElementById('pptNext').disabled = pptCur===pptTotal-1;
+}
+function pptGo(d){ pptJump(pptCur+d); }
+
+// ── QUIZ ──
+var qScore = 0;
+var qAnswered = {};
+var qCorrect = [2,1,0,2];
+var qFeedbacks = [
+  'La versión actual es de <strong>2015</strong>, quinta edición que incorporó el pensamiento basado en riesgos y el contexto organizacional.',
+  'La norma se basa en <strong>7 principios</strong>: Enfoque en el cliente, Liderazgo, Compromiso de personas, Procesos, Mejora, Evidencia y Relaciones.',
+  '<strong>Correcto.</strong> PDCA = Planificar (Plan), Hacer (Do), Verificar (Check), Actuar (Act). Es la columna vertebral de ISO 9001.',
+  'La estructura de alto nivel tiene <strong>10 cláusulas</strong>. Las primeras 3 son introductorias; las cláusulas 4-10 son los requisitos del SGC.'
+];
+
+function answerQ(qi, ai, correct){
+  if(qAnswered[qi] !== undefined) return;
+  qAnswered[qi] = ai;
+  var opts = document.querySelectorAll('#q'+qi+' .q-opt');
+  opts.forEach(function(o){ o.disabled = true; });
+  if(ai === correct){
+    opts[ai].classList.add('correct');
+    opts[ai].querySelector('.q-ltr').textContent = '✓';
+    qScore++;
+  } else {
+    opts[ai].classList.add('wrong');
+    opts[correct].classList.add('correct');
+    opts[ai].querySelector('.q-ltr').textContent = '✗';
+  }
+  var fb = document.getElementById('fb'+qi);
+  fb.innerHTML = qFeedbacks[qi];
+  fb.className = 'q-feedback show ' + (ai===correct?'ok':'err');
+  document.getElementById('next'+qi).classList.add('show');
+  // update progress
+  var answered = Object.keys(qAnswered).length;
+  document.getElementById('quizFill').style.width = Math.round(answered/4*100)+'%';
+}
+
+function nextQ(n){
+  document.getElementById('q'+(n-1)).classList.remove('active');
+  document.getElementById('q'+n).classList.add('active');
+}
+
+function showResult(){
+  document.getElementById('q3').classList.remove('active');
+  var pct = Math.round(qScore/4*100);
+  var passed = pct >= 75;
+  var result = document.getElementById('quizResult');
+  var circle = document.getElementById('qrCircle');
+  var col = passed ? '#4ade80' : pct>=50 ? '#fbbf24' : '#f87171';
+  circle.style.borderColor = col;
+  circle.style.color = col;
+  circle.textContent = pct+'%';
+  document.getElementById('qrTitle').textContent = passed ? '¡Excelente!' : 'Sigue practicando';
+  document.getElementById('qrTitle').style.color = col;
+  document.getElementById('qrSub').innerHTML = qScore+' de 4 correctas.<br>'+(passed?'¡Superaste el umbral de aprobación! Ya sabes lo básico de ISO 9001.':'Repasa el contenido e intenta nuevamente. ¡Tú puedes!');
+  document.getElementById('quizFill').style.width = '100%';
+  result.classList.add('show');
+}
+
+function retryQuiz(){
+  qScore=0; qAnswered={};
+  document.getElementById('quizFill').style.width='0%';
+  document.getElementById('quizResult').classList.remove('show');
+  document.querySelectorAll('.q-step').forEach(function(s,i){
+    s.classList.remove('active');
+    s.querySelectorAll('.q-opt').forEach(function(o){
+      o.disabled=false;
+      o.classList.remove('correct','wrong');
+      o.querySelector('.q-ltr').textContent=['A','B','C','D'][Array.from(s.querySelectorAll('.q-opt')).indexOf(o)];
+    });
+    var fb=s.querySelector('.q-feedback');
+    fb.className='q-feedback';
+    s.querySelector('.q-next').classList.remove('show');
+  });
+  document.getElementById('q0').classList.add('active');
+}
+</script>
+</body>
+</html>
